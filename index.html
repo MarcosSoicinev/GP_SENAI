@@ -266,27 +266,31 @@ h1{
 }
 
 .gauge{
-    width:140px;
-    height:140px;
+    width:160px;
+    height:160px;
     position:relative;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
 .gauge svg{
-    width:140px;
-    height:140px;
+    width:160px;
+    height:160px;
+    display:block;
     transform:rotate(-90deg);
 }
 
 .gauge-bg{
     fill:none;
     stroke:#e6e6e6;
-    stroke-width:10;
+    stroke-width:12;
 }
 
 .gauge-progress{
     fill:none;
     stroke:#28a745;
-    stroke-width:10;
+    stroke-width:12;
     stroke-linecap:round;
     stroke-dasharray:377;
     stroke-dashoffset:0;
@@ -301,16 +305,17 @@ h1{
     align-items:center;
     justify-content:center;
     color:#1a3a5a;
+    pointer-events:none;
 }
 
 .tempo-numero{
-    font-size:2rem;
+    font-size:2.2rem;
     font-weight:700;
     line-height:1;
 }
 
 .tempo-texto{
-    font-size:0.8rem;
+    font-size:0.82rem;
     color:#666;
     margin-top:6px;
     text-transform:uppercase;
@@ -367,7 +372,7 @@ h1{
 
         <div class="gauge-wrap">
             <div class="gauge">
-                <svg viewBox="0 0 140 140">
+                <svg viewBox="0 0 140 140" aria-hidden="true">
                     <circle class="gauge-bg" cx="70" cy="70" r="60"></circle>
                     <circle class="gauge-progress" id="gaugeProgress" cx="70" cy="70" r="60"></circle>
                 </svg>
@@ -424,8 +429,7 @@ function renderCards(){
 }
 
 async function buscarRanking(){
-    const url = `${WEBAPP_URL}?_=${Date.now()}`;
-    const resp = await fetch(url);
+    const resp = await fetch(`${WEBAPP_URL}?action=ranking&_=${Date.now()}`);
     if (!resp.ok) throw new Error('Falha ao buscar ranking.');
     return await resp.json();
 }
@@ -474,61 +478,74 @@ async function atualizarRanking(){
 }
 
 async function votar(id){
-    if(bloqueado) return;
+    if (bloqueado) return;
 
     try{
+        bloqueado = true;
         desabilitarBotoes(true);
 
-        const url = `${WEBAPP_URL}?action=vote&id=${encodeURIComponent(id)}&_=${Date.now()}`;
-        const resp = await fetch(url);
-        const data = await resp.json();
+        const resp = await fetch(`${WEBAPP_URL}?action=vote&id=${encodeURIComponent(id)}&_=${Date.now()}`);
+        const dados = await resp.json();
 
-        if(!data.ok){
-            throw new Error(data.error || 'Falha ao registrar voto.');
+        if (!dados.ok) {
+            throw new Error(dados.error || 'Erro ao registrar voto.');
         }
 
-        await atualizarRanking();
+        if (dados.ranking && typeof dados.total !== 'undefined') {
+            desenharRanking({
+                ranking: dados.ranking,
+                total: dados.total
+            });
+        } else {
+            await atualizarRanking();
+        }
+
         iniciarBloqueio15s();
+
     }catch(err){
+        console.error(err);
         alert(err.message || 'Erro ao registrar voto.');
+        bloqueado = false;
         desabilitarBotoes(false);
     }
 }
 
 function iniciarBloqueio15s(){
-    bloqueado = true;
-    document.getElementById("modal").style.display = "flex";
+    const modal = document.getElementById("modal");
+    const gauge = document.getElementById("gaugeProgress");
+    const tempo = document.getElementById("tempo");
+
+    modal.style.display = "flex";
 
     let t = 15;
     const total = 15;
-    const el = document.getElementById("tempo");
-    const gauge = document.getElementById("gaugeProgress");
-    const circumference = 2 * Math.PI * 60;
+    const raio = 60;
+    const circumference = 2 * Math.PI * raio;
 
-    gauge.style.strokeDasharray = circumference;
-    gauge.style.strokeDashoffset = 0;
+    gauge.style.strokeDasharray = `${circumference}`;
+    gauge.style.strokeDashoffset = "0";
     gauge.style.stroke = "#28a745";
-    el.innerText = t;
+    tempo.innerText = t;
 
-    let i = setInterval(() => {
+    const timer = setInterval(() => {
         t--;
-        el.innerText = t;
+        tempo.innerText = t;
 
         const progresso = (total - t) / total;
-        gauge.style.strokeDashoffset = circumference * progresso;
+        gauge.style.strokeDashoffset = `${circumference * progresso}`;
 
-        if(t <= 5){
+        if (t <= 5) {
             gauge.style.stroke = "#dc3545";
-        } else if(t <= 10){
+        } else if (t <= 10) {
             gauge.style.stroke = "#ff8c00";
         } else {
             gauge.style.stroke = "#28a745";
         }
 
-        if(t <= 0){
-            clearInterval(i);
+        if (t <= 0) {
+            clearInterval(timer);
+            modal.style.display = "none";
             bloqueado = false;
-            document.getElementById("modal").style.display = "none";
             desabilitarBotoes(false);
         }
     }, 1000);
@@ -537,7 +554,7 @@ function iniciarBloqueio15s(){
 function desabilitarBotoes(flag){
     mascotes.forEach(m => {
         const btn = document.getElementById(`btn_${m.id}`);
-        if(btn) btn.disabled = flag;
+        if (btn) btn.disabled = flag;
     });
 }
 
@@ -547,41 +564,34 @@ function abrirTela(tela){
     const btnVotacao = document.getElementById("btnVotacao");
     const btnRanking = document.getElementById("btnRanking");
 
-    if(tela === "ranking"){
+    if (tela === "ranking") {
         const senha = window.prompt("Digite a senha para acessar o ranking:");
 
-        if(senha === null){
-            return;
-        }
+        if (senha === null) return;
 
-        if(senha !== SENHA_RANKING){
+        if (senha !== SENHA_RANKING) {
             alert("Senha incorreta.");
             return;
         }
 
         telaVotacao.style.display = "none";
         telaRanking.style.display = "block";
-
         btnVotacao.classList.remove("ativo");
         btnRanking.classList.add("ativo");
 
         atualizarRanking();
 
-        if(intervaloRanking){
-            clearInterval(intervaloRanking);
-        }
-
+        if (intervaloRanking) clearInterval(intervaloRanking);
         intervaloRanking = setInterval(atualizarRanking, 1000);
         return;
     }
 
     telaVotacao.style.display = "block";
     telaRanking.style.display = "none";
-
     btnVotacao.classList.add("ativo");
     btnRanking.classList.remove("ativo");
 
-    if(intervaloRanking){
+    if (intervaloRanking) {
         clearInterval(intervaloRanking);
         intervaloRanking = null;
     }
@@ -589,7 +599,7 @@ function abrirTela(tela){
 
 function setStatus(msg){
     const el = document.getElementById('statusApi');
-    if(el) el.textContent = msg;
+    if (el) el.textContent = msg;
 }
 
 renderCards();
