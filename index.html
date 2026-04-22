@@ -19,7 +19,7 @@ body{
 }
 
 .container{
-    max-width:1200px;
+    max-width:1280px;
     margin:0 auto;
     padding:20px;
 }
@@ -30,35 +30,36 @@ header{
 }
 
 h1{
-    font-size:2.2rem;
+    font-size:2.6rem;
     margin:0 0 8px 0;
     text-transform:uppercase;
     letter-spacing:1px;
 }
 
 .subtitulo{
-    color:rgba(255,255,255,0.85);
+    color:rgba(255,255,255,0.88);
     margin-bottom:18px;
-    font-size:0.95rem;
+    font-size:1rem;
 }
 
 .topbar{
     display:flex;
     justify-content:center;
-    gap:10px;
+    gap:12px;
     flex-wrap:wrap;
-    margin-bottom:22px;
+    margin-bottom:24px;
 }
 
 .topbar button{
     background:rgba(255,255,255,0.14);
     color:#fff;
     border:1px solid rgba(255,255,255,0.35);
-    padding:10px 18px;
-    border-radius:8px;
+    padding:12px 22px;
+    border-radius:10px;
     cursor:pointer;
-    font-weight:600;
+    font-weight:700;
     transition:0.25s;
+    font-size:1rem;
 }
 
 .topbar button:hover{
@@ -80,7 +81,7 @@ h1{
 
 .opcoes{
     display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+    grid-template-columns:repeat(auto-fit, minmax(190px, 1fr));
     gap:16px;
 }
 
@@ -102,7 +103,7 @@ h1{
 
 .card img{
     width:100%;
-    height:190px;
+    height:200px;
     object-fit:cover;
     border-radius:10px;
     margin-bottom:10px;
@@ -142,93 +143,19 @@ h1{
 }
 
 .ranking-box{
-    background:rgba(255,255,255,0.96);
+    background:rgba(255,255,255,0.97);
     color:#333;
-    border-radius:14px;
-    padding:20px;
-    box-shadow:0 6px 18px rgba(0,0,0,0.18);
+    border-radius:18px;
+    padding:24px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.18);
 }
 
 .ranking-titulo{
     color:#1a3a5a;
-    font-weight:bold;
-    font-size:1.2rem;
-    margin-bottom:16px;
+    font-weight:800;
+    font-size:1.5rem;
+    margin-bottom:20px;
     text-align:center;
-}
-
-.ranking-items{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));
-    gap:14px;
-}
-
-.item-rank{
-    background:#f8f9fa;
-    padding:12px;
-    border-radius:10px;
-    border-left:4px solid #ff8c00;
-}
-
-.rank-topo{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom:10px;
-}
-
-.rank-pos{
-    background:#ff8c00;
-    color:#fff;
-    width:28px;
-    height:28px;
-    border-radius:50%;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-weight:bold;
-    font-size:0.85rem;
-    flex-shrink:0;
-}
-
-.rank-foto{
-    width:42px;
-    height:42px;
-    border-radius:50%;
-    object-fit:cover;
-    border:2px solid #d5dde6;
-    background:#eef2f7;
-    flex-shrink:0;
-}
-
-.rank-nome{
-    flex:1;
-    font-weight:bold;
-    color:#1a3a5a;
-    text-align:left;
-}
-
-.info-rank{
-    display:flex;
-    justify-content:space-between;
-    font-size:0.85rem;
-    font-weight:bold;
-    color:#1a3a5a;
-    margin-bottom:7px;
-}
-
-.barra-fundo{
-    background:#ddd;
-    height:12px;
-    border-radius:8px;
-    overflow:hidden;
-}
-
-.barra-progresso{
-    height:100%;
-    background:linear-gradient(90deg,#1a3a5a,#ff8c00);
-    width:0%;
-    transition:width 0.6s ease;
 }
 
 .modal{
@@ -328,99 +255,165 @@ h1{
     font-size:.9rem;
     opacity:.9;
 }
-.top5-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-    gap:16px;
+
+/* PÓDIO */
+.podio-wrap{
+    display:flex;
+    flex-direction:column;
+    gap:22px;
 }
 
-.top5-card{
+.podio-topo{
+    display:grid;
+    grid-template-columns:1fr 1.2fr 1fr;
+    gap:18px;
+    align-items:end;
+}
+
+.podio-base{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:18px;
+}
+
+.podio-card{
     background:linear-gradient(180deg,#ffffff 0%, #f7f9fc 100%);
-    border-radius:16px;
-    padding:16px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.12);
-    border-top:6px solid #ff8c00;
+    border-radius:18px;
+    padding:18px;
+    box-shadow:0 10px 22px rgba(0,0,0,0.14);
     text-align:center;
     position:relative;
+    overflow:hidden;
 }
 
-.top5-posicao{
+.podio-card::before{
+    content:"";
     position:absolute;
-    top:-14px;
-    left:50%;
-    transform:translateX(-50%);
-    background:#ff8c00;
-    color:#fff;
-    font-weight:700;
-    font-size:0.9rem;
-    padding:6px 14px;
-    border-radius:999px;
-    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+    top:0;
+    left:0;
+    right:0;
+    height:6px;
 }
 
-.top5-foto{
-    width:110px;
-    height:110px;
+.podio-1::before{ background:linear-gradient(90deg,#f7b500,#ffd95e); }
+.podio-2::before{ background:linear-gradient(90deg,#aeb7c2,#d9dfe6); }
+.podio-3::before{ background:linear-gradient(90deg,#cd7f32,#e6a86b); }
+.podio-4::before,
+.podio-5::before{ background:linear-gradient(90deg,#1a3a5a,#ff8c00); }
+
+.podio-1{
+    transform:translateY(-10px);
+}
+
+.podio-posicao{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    min-width:54px;
+    height:54px;
+    border-radius:50%;
+    font-weight:800;
+    font-size:1rem;
+    color:#fff;
+    margin-bottom:12px;
+}
+
+.podio-1 .podio-posicao{ background:#f7b500; }
+.podio-2 .podio-posicao{ background:#97a3b1; }
+.podio-3 .podio-posicao{ background:#c9823a; }
+.podio-4 .podio-posicao,
+.podio-5 .podio-posicao{ background:#ff8c00; }
+
+.podio-foto{
+    width:120px;
+    height:120px;
     border-radius:50%;
     object-fit:cover;
-    border:4px solid #dfe8f1;
-    margin:18px auto 12px;
+    border:4px solid #dbe5ef;
     display:block;
+    margin:0 auto 14px;
     background:#eef2f7;
 }
 
-.top5-nome{
-    font-size:1.05rem;
-    font-weight:700;
-    color:#1a3a5a;
-    margin-bottom:10px;
+.podio-1 .podio-foto{
+    width:150px;
+    height:150px;
 }
 
-.top5-votos{
-    font-size:1.6rem;
+.podio-nome{
+    font-size:1.2rem;
     font-weight:800;
+    color:#1a3a5a;
+    margin-bottom:8px;
+}
+
+.podio-1 .podio-nome{
+    font-size:1.35rem;
+}
+
+.podio-votos{
+    font-size:1.7rem;
+    font-weight:900;
     color:#ff8c00;
     margin-bottom:6px;
 }
 
-.top5-pct{
-    font-size:0.9rem;
-    color:#5a6773;
-    margin-bottom:12px;
+.podio-pct{
+    font-size:0.95rem;
+    color:#5f6b77;
+    margin-bottom:14px;
 }
 
-.top5-barra{
+.podio-barra{
     width:100%;
-    height:12px;
+    height:13px;
     background:#d9e1e8;
     border-radius:999px;
     overflow:hidden;
 }
 
-.top5-barra-progresso{
+.podio-barra-progresso{
     height:100%;
     background:linear-gradient(90deg,#1a3a5a,#ff8c00);
     width:0%;
-    transition:width 0.6s ease;
+    transition:width .6s ease;
     border-radius:999px;
 }
+
+.podio-vazio{
+    visibility:hidden;
+}
+
+@media (max-width:900px){
+    .podio-topo{
+        grid-template-columns:1fr;
+    }
+
+    .podio-base{
+        grid-template-columns:1fr;
+    }
+
+    .podio-1{
+        transform:none;
+    }
+
+    .podio-vazio{
+        display:none;
+    }
+}
+
 @media (max-width:700px){
     .card img{
         height:160px;
     }
-
-    .ranking-items{
-        grid-template-columns:1fr;
-    }
 }
-    
 </style>
 </head>
 <body>
 
 <div class="container">
     <header>
-        <h1>Votação Mascote</h1>
+        <h1>VOTAÇÃO MASCOTE</h1>
         <div class="subtitulo">Sistema de votação do SENAI</div>
 
         <div class="topbar">
@@ -434,12 +427,12 @@ h1{
         <div class="status-api" id="statusApi"></div>
     </div>
 
-   <div id="tela-ranking">
-    <div class="ranking-box">
-        <div class="ranking-titulo">Top 5 em Tempo Real</div>
-        <div class="top5-grid" id="ranking"></div>
+    <div id="tela-ranking">
+        <div class="ranking-box">
+            <div class="ranking-titulo">Pódio em Tempo Real</div>
+            <div class="podio-wrap" id="ranking"></div>
+        </div>
     </div>
-</div>
 </div>
 
 <div class="modal" id="modal">
@@ -516,31 +509,55 @@ function desenharRanking(payload){
     const total = Number(payload.total) || 0;
     const r = document.getElementById("ranking");
 
-    r.innerHTML = ranking.map((item, index) => {
+    function criarCard(item, index){
+        if(!item){
+            return `<div class="podio-card podio-vazio"></div>`;
+        }
+
         const meta = mascotes.find(m => m.id === item.id) || {};
         const p = total ? (Number(item.votos || 0) / total * 100) : 0;
         const fallback = meta.fallback || '';
         const img = meta.img || '';
+        const posicao = index + 1;
 
         return `
-            <div class="top5-card">
-                <div class="top5-posicao">${index + 1}º Lugar</div>
+            <div class="podio-card podio-${posicao}">
+                <div class="podio-posicao">${posicao}º</div>
 
-                <img class="top5-foto"
+                <img class="podio-foto"
                      src="${img}"
                      alt="${item.nome}"
                      onerror="this.onerror=null;this.src='${fallback}'">
 
-                <div class="top5-nome">${item.nome}</div>
-                <div class="top5-votos">${Number(item.votos || 0)}</div>
-                <div class="top5-pct">${p.toFixed(1)}%</div>
+                <div class="podio-nome">${item.nome}</div>
+                <div class="podio-votos">${Number(item.votos || 0)}</div>
+                <div class="podio-pct">${p.toFixed(1)}% dos votos</div>
 
-                <div class="top5-barra">
-                    <div class="top5-barra-progresso" style="width:${p}%"></div>
+                <div class="podio-barra">
+                    <div class="podio-barra-progresso" style="width:${p}%"></div>
                 </div>
             </div>
         `;
-    }).join("");
+    }
+
+    const segundo = ranking[1] || null;
+    const primeiro = ranking[0] || null;
+    const terceiro = ranking[2] || null;
+    const quarto = ranking[3] || null;
+    const quinto = ranking[4] || null;
+
+    r.innerHTML = `
+        <div class="podio-topo">
+            ${criarCard(segundo, 1)}
+            ${criarCard(primeiro, 0)}
+            ${criarCard(terceiro, 2)}
+        </div>
+
+        <div class="podio-base">
+            ${criarCard(quarto, 3)}
+            ${criarCard(quinto, 4)}
+        </div>
+    `;
 }
 
 async function atualizarRanking(){
