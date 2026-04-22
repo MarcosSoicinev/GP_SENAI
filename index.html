@@ -328,7 +328,82 @@ h1{
     font-size:.9rem;
     opacity:.9;
 }
+.top5-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:16px;
+}
 
+.top5-card{
+    background:linear-gradient(180deg,#ffffff 0%, #f7f9fc 100%);
+    border-radius:16px;
+    padding:16px;
+    box-shadow:0 8px 20px rgba(0,0,0,0.12);
+    border-top:6px solid #ff8c00;
+    text-align:center;
+    position:relative;
+}
+
+.top5-posicao{
+    position:absolute;
+    top:-14px;
+    left:50%;
+    transform:translateX(-50%);
+    background:#ff8c00;
+    color:#fff;
+    font-weight:700;
+    font-size:0.9rem;
+    padding:6px 14px;
+    border-radius:999px;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+
+.top5-foto{
+    width:110px;
+    height:110px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #dfe8f1;
+    margin:18px auto 12px;
+    display:block;
+    background:#eef2f7;
+}
+
+.top5-nome{
+    font-size:1.05rem;
+    font-weight:700;
+    color:#1a3a5a;
+    margin-bottom:10px;
+}
+
+.top5-votos{
+    font-size:1.6rem;
+    font-weight:800;
+    color:#ff8c00;
+    margin-bottom:6px;
+}
+
+.top5-pct{
+    font-size:0.9rem;
+    color:#5a6773;
+    margin-bottom:12px;
+}
+
+.top5-barra{
+    width:100%;
+    height:12px;
+    background:#d9e1e8;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.top5-barra-progresso{
+    height:100%;
+    background:linear-gradient(90deg,#1a3a5a,#ff8c00);
+    width:0%;
+    transition:width 0.6s ease;
+    border-radius:999px;
+}
 @media (max-width:700px){
     .card img{
         height:160px;
@@ -338,6 +413,7 @@ h1{
         grid-template-columns:1fr;
     }
 }
+    
 </style>
 </head>
 <body>
@@ -358,12 +434,12 @@ h1{
         <div class="status-api" id="statusApi"></div>
     </div>
 
-    <div id="tela-ranking">
-        <div class="ranking-box">
-            <div class="ranking-titulo">Ranking em Tempo Real</div>
-            <div class="ranking-items" id="ranking"></div>
-        </div>
+   <div id="tela-ranking">
+    <div class="ranking-box">
+        <div class="ranking-titulo">Top 5 em Tempo Real</div>
+        <div class="top5-grid" id="ranking"></div>
     </div>
+</div>
 </div>
 
 <div class="modal" id="modal">
@@ -435,31 +511,32 @@ async function buscarRanking(){
 }
 
 function desenharRanking(payload){
-    const ranking = Array.isArray(payload.ranking) ? payload.ranking : [];
+    const rankingCompleto = Array.isArray(payload.ranking) ? payload.ranking : [];
+    const ranking = rankingCompleto.slice(0, 5);
     const total = Number(payload.total) || 0;
     const r = document.getElementById("ranking");
 
-    r.innerHTML = ranking.map((i, index) => {
-        const meta = mascotes.find(m => m.id === i.id) || {};
-        const p = total ? (Number(i.votos || 0) / total * 100) : 0;
+    r.innerHTML = ranking.map((item, index) => {
+        const meta = mascotes.find(m => m.id === item.id) || {};
+        const p = total ? (Number(item.votos || 0) / total * 100) : 0;
         const fallback = meta.fallback || '';
         const img = meta.img || '';
 
         return `
-            <div class="item-rank">
-                <div class="rank-topo">
-                    <div class="rank-pos">${index + 1}</div>
-                    <img class="rank-foto" src="${img}" alt="${i.nome}" onerror="this.onerror=null;this.src='${fallback}'">
-                    <div class="rank-nome">${i.nome}</div>
-                </div>
+            <div class="top5-card">
+                <div class="top5-posicao">${index + 1}º Lugar</div>
 
-                <div class="info-rank">
-                    <span>${Number(i.votos || 0)} voto(s)</span>
-                    <span>${p.toFixed(1)}%</span>
-                </div>
+                <img class="top5-foto"
+                     src="${img}"
+                     alt="${item.nome}"
+                     onerror="this.onerror=null;this.src='${fallback}'">
 
-                <div class="barra-fundo">
-                    <div class="barra-progresso" style="width:${p}%"></div>
+                <div class="top5-nome">${item.nome}</div>
+                <div class="top5-votos">${Number(item.votos || 0)}</div>
+                <div class="top5-pct">${p.toFixed(1)}% dos votos</div>
+
+                <div class="top5-barra">
+                    <div class="top5-barra-progresso" style="width:${p}%"></div>
                 </div>
             </div>
         `;
