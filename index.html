@@ -558,7 +558,16 @@ function abrirTela(tela){
             clearInterval(intervaloRanking);
             intervaloRanking = null;
         }
+
     }else{
+        // 🔐 PEDIR SENHA
+        const senha = prompt("Digite a senha para acessar o ranking:");
+
+        if(senha !== "SAGACETAFR"){
+            alert("Senha incorreta!");
+            return;
+        }
+
         telaVotacao.style.display = "none";
         telaRanking.style.display = "block";
         btnRanking.classList.add("ativo");
