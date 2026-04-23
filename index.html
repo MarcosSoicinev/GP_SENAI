@@ -471,15 +471,15 @@ function gerarPlaceholder(nome){
 }
 
 const mascotes = [
-    { id:'senatron', nome:'SENATRON', img:'img/01 - SENATRON.jpg' },
-    { id:'eric', nome:'Eric', img:'img/02 - Aluno Eric da turma de polímeros.jpg' },
-    { id:'maria', nome:'Maria', img:'img/03 - Maria Gabrielle Oliveira de Paula.jpg' },
-    { id:'gabriel', nome:'Gabriel', img:'img/04 - Gabriel.jpg' },
-    { id:'volts', nome:'Volts', img:'img/05 - breno almeida felix - volts.jpg' },
-    { id:'amanda', nome:'Amanda', img:'img/06 - uni 7 - Amanda dos Santos Melo.jpg' },
-    { id:'clecio', nome:'Clecio', img:'img/07 - voltz - Clecio De Oliveira Coelho.jpg' },
-    { id:'jubao', nome:'Jubão', img:'img/08 - jubão - Demétrio da Silva costa costa.jpg' },
-    { id:'volta', nome:'Volta', img:'img/09 - VOLTA - Valniele Maia Buriti Da Silva.jpg' }
+    { id:'senatron', nome:'david - SENATRON', img:'img/01 - SENATRON.jpg' },
+    { id:'eric', nome:'Eric  - MIMI', img:'img/02 - Aluno Eric da turma de polímeros.jpg' },
+    { id:'maria', nome:'Maria - SENIOR', img:'img/03 - Maria Gabrielle Oliveira de Paula.jpg' },
+    { id:'gabriel', nome:'Gabriel - MAX', img:'img/04 - Gabriel.jpg' },
+    { id:'volts', nome:'Breno - VOLTS', img:'img/05 - breno almeida felix - volts.jpg' },
+    { id:'amanda', nome:'Amanda - RM6', img:'img/06 - uni 7 - Amanda dos Santos Melo.jpg' },
+    { id:'clecio', nome:'Clecio - VOLTZ', img:'img/07 - voltz - Clecio De Oliveira Coelho.jpg' },
+    { id:'jubao', nome:'Demtrio - JUBÃO', img:'img/08 - jubão - Demétrio da Silva costa costa.jpg' },
+    { id:'volta', nome:' Valniele - VOLTA', img:'img/09 - VOLTA - Valniele Maia Buriti Da Silva.jpg' }
 ].map(m => ({ ...m, fallback: gerarPlaceholder(m.nome) }));
 
 let bloqueado = false;
